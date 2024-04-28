@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Messages from './components/Messages';
 import Input from './components/Input';
+import Users from './components/Users';
 
 function randomName() {
   const animals = [
@@ -29,8 +30,33 @@ function randomName() {
     ' 🐲 Dragon',
   ];
 
+  const moods = [
+    'Happy',
+    'Angry',
+    'Sad',
+    'Anxious',
+    'Confident',
+    'Peaceful',
+    'Hopeful',
+    'Jealous',
+    'Excited',
+    'Frustrated',
+    'Nervous',
+    'Calm',
+    'Optimistic',
+    'Content',
+    'Irritated',
+    'Worried',
+    'Relaxed',
+    'Joyful',
+    'Surprised',
+    'Mad',
+    'Thankful',
+  ];
+
   const animal = animals[Math.floor(Math.random() * animals.length)];
-  return animal;
+  const mood = moods[Math.floor(Math.random() * moods.length)];
+  return animal + '-is-' + mood;
 }
 
 function randomColor() {
@@ -87,6 +113,8 @@ function randomColor() {
   return color;
 }
 
+let drone = null;
+
 export default function Room() {
   const [messages, setMessages] = useState([
     {
@@ -95,27 +123,67 @@ export default function Room() {
       user: {
         id: '1',
         userData: {
-          color: randomColor(),
-          name: randomName(),
+          color: 'blue',
+          name: 'bluemoon',
         },
       },
     },
   ]);
+
   const [me, setMe] = useState({
-    name: randomName(),
-    color: randomColor(),
+    userData: {
+      color: randomColor(),
+      name: randomName(),
+    },
   });
 
+  const [users, setUsers] = useState([
+    {
+      id: '1',
+      userData: {
+        color: 'blue',
+        name: 'bluemoon',
+      },
+    },
+  ]);
+
+  const messagesRef = useRef();
+  messagesRef.current = messages;
+  const meRef = useRef();
+  meRef.current = me;
+  const usersRef = useRef();
+  usersRef.current = users;
+
+  function scaledroneConnect() {
+    drone = new window.Scaledrone('YOUR-CHANNEL-ID', {
+      data: meRef.current,
+    });
+
+    drone.on('open', error => {
+      if (error) {
+        return console.error(error);
+      }
+      meRef.current.id = drone.clientId;
+      setMe(meRef.current);
+    });
+  }
+
   function onSend(text) {
+    console.log(text);
     const message = {
+      id: '3',
       text: text,
       user: me,
     };
-    setMessages([...messages, message]);
+    const newMessages = [...messages];
+    newMessages.push(message);
+    setMessages(newMessages);
+    console.log(newMessages);
   }
 
   return (
     <>
+      <Users users={users} me={me} />
       <Messages messages={messages} me={me} />
       <Input onSend={onSend} />
     </>

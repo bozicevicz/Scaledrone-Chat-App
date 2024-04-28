@@ -3,7 +3,8 @@ import { useEffect, useRef } from 'react';
 
 function Message(i, me) {
   const { user, text, id } = i;
-  const { color, name } = user.userData;
+  const color = user.userData.color;
+  const name = user.userData.name;
   const myMessage = user.id === me.id;
   const className = myMessage ? `` : ``;
 
@@ -12,7 +13,7 @@ function Message(i, me) {
       <span className={`styles.avatar`}>
         <div className={`styles.messageContent`}>
           <div className={`styles.username`} style={{ backgroundColor: color }}>
-            {color + name}
+            {name}
           </div>
           <div className={`styles.text`}>{text}</div>
         </div>

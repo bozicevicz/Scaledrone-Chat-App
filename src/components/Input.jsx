@@ -11,8 +11,8 @@ export default function Input({ onSend }) {
 
   function onSubmit(event) {
     event.preventDefault();
-    setText('');
     onSend(text);
+    setText('');
   }
 
   return (
