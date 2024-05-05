@@ -1,23 +1,20 @@
 import React from 'react';
 
-export default function Users({ users, me }) {
-  console.log(users.length);
+export default function Users({ members, me }) {
   return (
-    <div className={`styles.members`}>
-      <div className={`styles.membersCount`}>Number of users online: {users.length}</div>
-      <div className={`styles.membersList`}>{users.map(i => User(i, i.id === me.id))}</div>
+    <div className={`users`}>
+      <div>Number of users online: {members.length}</div>
+      <div>{members.map(i => User(i, i.id === me.id))}</div>
     </div>
   );
 }
 
-function User({ id, userData }, meOnline) {
-  const { name, color } = userData;
+function User({ id, clientData }, meOnline) {
+  const { username } = clientData;
   return (
-    <div key={id} className={`styles.member`}>
-      <div className={`styles.avatar`} style={{ backgroundColor: color }} />
-      <div className={`styles.username`}>
-        {name} {meOnline ? ' me' : ''}
-      </div>
+    <div key={id}>
+      {meOnline ? 'ME → ' : ''}
+      {username}
     </div>
   );
 }

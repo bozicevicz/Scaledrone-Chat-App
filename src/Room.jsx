@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Messages from './components/Messages';
 import Input from './components/Input';
 import Users from './components/Users';
@@ -65,7 +65,6 @@ function randomColor() {
     `Azure`,
     `Beige`,
     `Bisque`,
-    `Black`,
     `Blue`,
     `Brown`,
     `Chocolate`,
@@ -74,7 +73,6 @@ function randomColor() {
     `Cyan`,
     `Fuchsia`,
     `Gold`,
-    `Gray`,
     `Green`,
     `Indigo`,
     `Ivory`,
@@ -96,8 +94,6 @@ function randomColor() {
     `Red`,
     `Salmon`,
     `Sienna`,
-    `Silver`,
-    `Snow`,
     `Tan`,
     `Teal`,
     `Thistle`,
@@ -105,7 +101,6 @@ function randomColor() {
     `Turquoise`,
     `Violet`,
     `Wheat`,
-    `White`,
     `Yellow`,
   ];
 
@@ -116,46 +111,22 @@ function randomColor() {
 let drone = null;
 
 export default function Room() {
-  const [messages, setMessages] = useState([
-    {
-      id: '1',
-      text: 'This is a test message!',
-      user: {
-        id: '1',
-        userData: {
-          color: 'blue',
-          name: 'bluemoon',
-        },
-      },
-    },
-  ]);
-
+  const [messages, setMessages] = useState([]);
   const [me, setMe] = useState({
-    userData: {
-      color: randomColor(),
-      name: randomName(),
-    },
+    color: randomColor(),
+    username: randomName(),
   });
-
-  const [users, setUsers] = useState([
-    {
-      id: '1',
-      userData: {
-        color: 'blue',
-        name: 'bluemoon',
-      },
-    },
-  ]);
+  const [members, setMembers] = useState([]);
 
   const messagesRef = useRef();
   messagesRef.current = messages;
   const meRef = useRef();
   meRef.current = me;
-  const usersRef = useRef();
-  usersRef.current = users;
+  const membersRef = useRef();
+  membersRef.current = members;
 
   function scaledroneConnect() {
-    drone = new window.Scaledrone('YOUR-CHANNEL-ID', {
+    drone = new window.Scaledrone('NB9bEUhZWUbZS1im', {
       data: meRef.current,
     });
 
@@ -166,24 +137,51 @@ export default function Room() {
       meRef.current.id = drone.clientId;
       setMe(meRef.current);
     });
+
+    const room = drone.subscribe('observable-room');
+
+    room.on('message', message => {
+      const { data } = message;
+      if (typeof data === 'object') {
+        const newMembers = [...membersRef.current];
+        setMembers(newMembers);
+      } else {
+        setMessages([...messagesRef.current, message]);
+      }
+    });
+
+    room.on('members', members => {
+      setMembers(members);
+    });
+
+    room.on('member_join', member => {
+      setMembers([...membersRef.current, member]);
+    });
+
+    room.on('member_leave', ({ id }) => {
+      const index = membersRef.current.findIndex(i => i.id === id);
+      const newUsers = [...membersRef.current];
+      newUsers.splice(index, 1);
+      setMembers(newUsers);
+    });
   }
 
-  function onSend(text) {
-    console.log(text);
-    const message = {
-      id: '3',
-      text: text,
-      user: me,
-    };
-    const newMessages = [...messages];
-    newMessages.push(message);
-    setMessages(newMessages);
-    console.log(newMessages);
+  useEffect(() => {
+    if (drone === null) {
+      scaledroneConnect();
+    }
+  }, []);
+
+  function onSend(message) {
+    drone.publish({
+      room: 'observable-room',
+      message: message,
+    });
   }
 
   return (
     <>
-      <Users users={users} me={me} />
+      <Users members={members} me={me} />
       <Messages messages={messages} me={me} />
       <Input onSend={onSend} />
     </>

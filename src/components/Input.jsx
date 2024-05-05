@@ -4,23 +4,21 @@ import { useState } from 'react';
 export default function Input({ onSend }) {
   const [text, setText] = useState('');
 
-  function onChange(event) {
+  const handleChange = event => {
     const value = event.target.value;
     setText(value);
-  }
+  };
 
-  function onSubmit(event) {
+  const handleSubmit = event => {
     event.preventDefault();
-    onSend(text);
+    text && onSend(text);
     setText('');
-  }
+  };
 
   return (
-    <div className={`styles.input`}>
-      <form onSubmit={e => onSubmit(e)}>
-        <input onChange={e => onChange(e)} value={text} type="text" placeholder="Send Your Message..." />
-        <button>Send</button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input onChange={handleChange} value={text} type="text" placeholder="Type Your Message..." />
+      <button type="submit">Send</button>
+    </form>
   );
 }

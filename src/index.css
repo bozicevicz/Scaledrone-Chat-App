@@ -1,13 +1,67 @@
-body {
+* {
+  font-family: cursive;
+  background-color: lightgray;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
+  text-align: center;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+h1 {
+  padding: 10px;
+  position: sticky;
+  background-color: snow;
+  top: 0;
+  width: 100%;
+  border-bottom: 1px solid gray;
+}
+
+.users {
+  position: sticky;
+  top: 0;
+  box-shadow: 2px 7px 5px rgba(0, 0, 0, 0.4);
+  padding: 5px;
+}
+
+li {
+  padding: 20px 0;
+  list-style-type: none;
+  width: 45vw;
+  border: 1px solid black;
+  border-radius: 20px 20px 20px 0;
+  box-shadow: 2px 7px 5px rgba(0, 0, 0, 0.4);
+  margin: 10px 10px 10px 2vw;
+}
+
+.mine {
+  margin: 10px 10px 10px 52vw;
+  border-radius: 20px 20px 0 20px;
+}
+
+.poster {
+  padding: 2px;
+  background-color: snow;
+}
+
+form {
+  padding: 10px;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid gray;
+}
+
+form > input,
+button {
+  padding: 11px;
+  width: 30vw;
+  border: 1px solid gray;
+  border-radius: 10px;
+  margin: 5px;
+  background-color: white;
+}
+
+button {
+  width: 200px;
+  font-size: 14px;
 }
