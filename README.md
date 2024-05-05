@@ -1,4 +1,6 @@
-# Under Construction...
+# Scaledrone-Chat-App
+
+![Model](https://github.com/bozicevicz/Scaledrone-Chat-App/blob/main/scaledrone-chat-app.jpg)
 
 # Getting Started with Create React App
 
@@ -7,6 +9,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `npm install`
+
+This command installs any packages that the project depends on.
 
 ### `npm start`
 
