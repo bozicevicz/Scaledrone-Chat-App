@@ -114,7 +114,7 @@ export default function Room() {
   const [messages, setMessages] = useState([]);
   const [me, setMe] = useState({
     color: randomColor(),
-    username: randomName(),
+    name: randomName(),
   });
   const [members, setMembers] = useState([]);
 

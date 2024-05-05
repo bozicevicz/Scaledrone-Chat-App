@@ -10,11 +10,11 @@ export default function Users({ members, me }) {
 }
 
 function User({ id, clientData }, meOnline) {
-  const { username } = clientData;
+  const { name } = clientData;
   return (
     <div key={id}>
       {meOnline ? 'ME → ' : ''}
-      {username}
+      {name}
     </div>
   );
 }

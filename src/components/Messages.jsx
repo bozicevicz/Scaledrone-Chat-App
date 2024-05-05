@@ -2,13 +2,13 @@ import React from 'react';
 import { useEffect, useRef } from 'react';
 
 function Message({ member, data, id }, me) {
-  const { username, color } = member.clientData;
+  const { name, color } = member.clientData;
   const myMessage = member.id === me.id;
   const className = myMessage ? `mine` : ``;
 
   return (
     <li key={id} style={{ backgroundColor: color }} className={className}>
-      <div className={`poster`}>{username} :</div>
+      <div className={`poster`}>{name} :</div>
       <p className={`poster`}>{data}</p>
     </li>
   );
