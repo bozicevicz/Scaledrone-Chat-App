@@ -126,7 +126,7 @@ export default function Room() {
   membersRef.current = members;
 
   function scaledroneConnect() {
-    drone = new window.Scaledrone('NB9bEUhZWUbZS1im', {
+    drone = new window.Scaledrone('ID', {
       data: meRef.current,
     });
 
