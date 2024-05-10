@@ -1,6 +1,6 @@
 # Scaledrone-Chat-App    
 
-Link to deploy: https://bucolic-strudel-54b44a.netlify.app/
+Link to deployed: https://bozicevicz-scaledrone-chat-app.netlify.app/
 
 ![Model](https://github.com/bozicevicz/Scaledrone-Chat-App/blob/main/scaledrone-chat-app.jpg)
 
